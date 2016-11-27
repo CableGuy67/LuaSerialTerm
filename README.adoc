@@ -1,0 +1,197 @@
+lua-readline
+============
+:toc:
+
+A Lua wrapper for the GNU readline library.
+
+
+Usage
+-----
+
+To use lua-readline, simply put `local readline = require("readline")`
+in your script.
+
+
+Functions
+---------
+
+Unless otherwise specified, all functions return `true` on success, and
+`nil` followed by an error message on failure.
+
+
+[[readline]]
+`readline.readline([prompt])`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Reads a line of input.
+
+'prompt' is the string that is used as the... prompt.
+
+'prompt' defaults to an empty string.
+
+
+[[add_history]]
+`readline.add_history(line)`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Adds 'line' to the history.
+
+
+[[add_history_time]]
+`readline.add_history_time(timestamp)`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sets the timestamp of the most recent line in the history to 'timestamp'.
+
+'timestamp' is a string, by the way.
+
+
+[[clear_history]]
+`readline.clear_history()`
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Removes every entry from the history.
+
+
+[[history_is_stifled]]
+`readline.history_is_stifled()`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Returns `true` if the history is <<stifle_history,stifled>>, `false`
+otherwise.
+
+
+[[stifle_history]]
+`readline.stifle_history(max_lines)`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Prevents the history from storing more than 'max_lines' entries at a time.
+
+
+[[unstifle_history]]
+`readline.unstifle_history()`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Removes the limit from the history.
+
+Returns the previous amount the history was stifled by.
+The value is positive if the history was stifled, negative if it wasn't.
+
+
+[[read_history]]
+`readline.read_history(filename)`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Loads the history from a file.
+
+'filename' is the file to load from.
+If 'filename' is `nil`, the default history file is used
+(usually `~/.history`).
+
+
+[[write_history]]
+`readline.write_history(filename)`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Writes the history to a file.
+
+'filename' is the file to write to.
+If 'filename' is `nil`, the default history file is used.
+
+This function completely overwrites the history file;
+use <<append_history,`append_history`>> if you just want to update it.
+
+
+[[append_history]]
+`readline.append_history(n_entries, filename)`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Appends the last 'n_entries' entries in the history to a file.
+
+'filename' is the file to add the entries to.
+If 'filename' is `nil`, the default history file is used.
+
+
+Examples
+--------
+
+The following code is an (extremely) simple shell:
+
+[source,lua]
+----
+local os = require("os")
+local readline = require("readline")
+
+while (true) do
+  local cmdline = readline.readline("> ")  -- read a line
+
+  if (cmdline == "exit") then              -- 'exit' builtin
+    os.exit(0)                             --  end the program
+  end
+
+  readline.add_history(cmdline)            -- update command history
+
+  os.execute(cmdline)                      -- execute command in a real shell
+end
+----
+
+Here is a version that remembers the history across multiple invocations:
+
+[source,lua]
+----
+local os = require("os")
+local readline = require("readline")
+
+readline.read_history(nil) -- load default history
+
+while (true) do
+  local cmdline = readline.readline("> ")
+
+  if (cmdline == "exit") then
+    assert(readline.write_history(nil)) -- write to default history file
+    os.exit(0)
+  end
+
+  readline.add_history(cmdline)
+
+  os.execute(cmdline)
+end
+----
+
+And I can't resist adding tons of bells and whistles:
+
+[source,lua]
+----
+local os = require("os")
+local readline = require("readline")
+
+if not (readline.read_history(nil)) then -- file probably doesn't exist
+  assert(readline.write_history(nil)) -- create the default history file
+end
+
+local prompt = 'FAKESH> '
+
+local builtins = {
+  ['exit'] = function()
+    os.exit(0)
+  end,
+}
+
+while (true) do
+  local cmdline = readline.readline(prompt)
+
+  readline.add_history(cmdline)
+
+  -- append most recent line to default history file
+  assert(readline.append_history(1, nil))
+
+  if (builtins[cmdline] ~= nil) then
+    builtins[cmdline]()
+    goto continue
+  end
+
+  os.execute(cmdline)
+
+  ::continue::
+end
+----
