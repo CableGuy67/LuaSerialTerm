@@ -15,11 +15,13 @@ static int l_readline_add_history(lua_State *const L) {
     return 1;
 }
 
+#ifndef LIBEDIT
 static int l_readline_add_history_time(lua_State *const L) {
     add_history_time(luaL_checkstring(L, 1));
     lua_pushboolean(L, true);
     return 1;
 }
+#endif
 
 static int l_readline_stifle_history(lua_State *const L) {
     stifle_history(luaL_checkinteger(L, 1));
@@ -62,6 +64,7 @@ static int l_readline_write_history(lua_State *const L) {
     }
 }
 
+#ifndef LIBEDIT
 static int l_readline_append_history(lua_State *const L) {
     const int s = append_history(luaL_checkinteger(L, 1),
                                  luaL_optstring(L, 2, NULL));
@@ -74,6 +77,7 @@ static int l_readline_append_history(lua_State *const L) {
         return 2;
     }
 }
+#endif
 
 static int l_readline_history_is_stifled(lua_State *const L) {
     lua_pushboolean(L, history_is_stifled());
@@ -88,8 +92,10 @@ static int l_readline_readline(lua_State *const L) {
 
 static const luaL_Reg l_readline[] = {
     {"add_history",        l_readline_add_history},
+#ifndef LIBEDIT
     {"add_history_time",   l_readline_add_history_time},
     {"append_history",     l_readline_append_history},
+#endif
     {"clear_history",      l_readline_clear_history},
     {"history_is_stifled", l_readline_history_is_stifled},
     {"read_history",       l_readline_read_history},
