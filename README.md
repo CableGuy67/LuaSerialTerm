@@ -7,7 +7,7 @@ serial bridge built in or with a usb to serial module.
 The goal here is to be able to talk with a range or REPLs whether it is forth
 on an Atmega, Lua on an ESP running nodeMCU or Python on a Raspberry Pi Pico.
 
-See luaserialterm.lua afor an example of sending and receiving data.
+See luaserialterm.lua for an example of sending and receiving data.
 
 ## history
 Forked from code found at:
