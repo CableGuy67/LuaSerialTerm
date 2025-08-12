@@ -1,12 +1,36 @@
 /*
- * A Lua library in C to send/receive data to Arduino
- * See arduinotest.lua for example how to use
+ * POSIX Serial Port C Library with Lua Bindings
+ * See luaserialterm.lua for an example of how to use
  *
- * Uses posix library
+ * Uses posix library so it should work with Linux/UNIX
+ * to communicate with devices that via a serial port
  *
- * Derived from code avaailable at:
- * http://riccardotacconi.blogspot.com/
- * Riccardo Tacconi, rtacconi@gmail.com
+ * HISTORY
+ *
+ * Forked from code found at:
+ * https://github.com/biomood/LuaSerial
+ *
+ * That was derived from code available at:
+ * https://github.com/rtacconi/arduino-serial-posix
+ *
+ * Which in turn was derived from code now found at:
+ * https://github.com/todbot/arduino-serial
+ *
+ * My additions and corrections were derived from (among other places):
+ * A very good description of all options:
+ * https://blog.mbedded.ninja
+ * /programming/operating-systems/linux/linux-serial-ports-using-c-cpp/
+ *
+ * Also the whole thing explained clearly:
+ * https://support.dce.felk.cvut.cz/pos/cv5/doc/serial.html#config
+ *
+ * Compiled on Debian 12 for Lua5.1 using:
+ * gcc -I /usr/include/lua5.1/ -fPIC -shared \
+ * -l:liblua5.1.so.0 serial.c -o serial.so
+ *
+ * There are some Lua 5.1 specific calls (int, register, etc) that need
+ * to be adressed to build for later Lua versions that no longer have
+ * the calls used in this code.
  */
 
 #include <stdio.h>
