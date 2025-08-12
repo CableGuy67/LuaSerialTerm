@@ -11,26 +11,21 @@ See luaserialterm.lua for an example of sending and receiving data.
 
 ## history
 Forked from code found at:
-
-(biomood/LuaSerial)[https://github.com/biomood/LuaSerial]
+[biomood/LuaSerial](https://github.com/biomood/LuaSerial)
 
 That was derived from code available at:
-
-(rtacconi/arduino-serial-posix)[https://github.com/rtacconi/arduino-serial-posix]
+[rtacconi/arduino-serial-posix](https://github.com/rtacconi/arduino-serial-posix)
 
 Which in turn was derived from code now found at:
-
-(todbot/arduino-serial)[https://github.com/todbot/arduino-serial]
+[todbot/arduino-serial](https://github.com/todbot/arduino-serial)
 
 My additions and corrections were derived from (among other places):
 
 A very good description of all options:
-
-(blog post)[https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/]
+[mbedded ninja blog post](https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/)
 
 Also the whole thing explained clearly:
-
-(Serial Programming in POSIX)[https://support.dce.felk.cvut.cz/pos/cv5/doc/serial.html#config]
+[Serial Programming in POSIX](https://support.dce.felk.cvut.cz/pos/cv5/doc/serial.html#config)
 
 ## requirements
 
