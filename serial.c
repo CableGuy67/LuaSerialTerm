@@ -188,7 +188,7 @@ int iread_no_bytes(lua_State *L) {
 	// return number of bytes read and data
 	lua_pushnumber(L, r);
 	lua_pushstring(L, buf);
-	free(buf)
+	free(buf);
 	return 2;
 }
 
