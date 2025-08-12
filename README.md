@@ -1,27 +1,49 @@
-A Lua library for the Arduino written in C
-This is using the POSIX library which should work on oUNIX environments.
+## POSIX Serial Port C Library with Lua Bindings
+Uses posix library so it should work with Linux/UNIX environments.
 
-Using this library you'll be able to send and receive data from the Arduino.
-See the arduinotest.lua and arduinotest.ino for an example of sending data to the arduino and then receiving the data back.
+Using this library you'll be able to send and receive data to a device via
+the serial port to connected devices that have a serial port, have a usb to
+serial bridge built in or with a usb to serial module.
+The goal here is to be able to talk with a range or REPLs whether it is forth
+on an Atmega, Lua on an ESP running nodeMCU or Python on a Raspberry Pi Pico.
 
-Code derived from https://github.com/rtacconi
+See luaserialterm.lua for an example of sending and receiving data.
+
+## history
+Forked from code found at:
+[biomood/LuaSerial](https://github.com/biomood/LuaSerial)
+
+That was derived from code available at:
+[rtacconi/arduino-serial-posix](https://github.com/rtacconi/arduino-serial-posix)
+
+Which in turn was derived from code now found at:
+[todbot/arduino-serial](https://github.com/todbot/arduino-serial)
+
+My additions and corrections were derived from (among other places):
+
+A very good description of all options:
+[mbedded ninja blog post](https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp/)
+
+Also the whole thing explained clearly:
+[Serial Programming in POSIX](https://support.dce.felk.cvut.cz/pos/cv5/doc/serial.html#config)
 
 ## requirements
 
 * Lua 5.1.x
 
 ## build
+Compiled on Debian 12 for Lua5.1 using:
 
-    tcc -shared -llua serial.c -o serial.so
+    gcc -I /usr/include/lua5.1/ -fPIC -shared -l:liblua5.1.so.0 serial.c -o serial.so
 
 ## TO USE
 
     Require the library:
     local serial = require("serial")
 
-Open a connection to an arduino (port is the filedescriptor, msg is error if failed to open)
+Open a connection to a device (port is the filedescriptor, msg is error if failed to open)
 
-    port, msg = serial.open("/dev/tty.usbserial-A600agDn", 9600)
+    port, msg = serial.open("/dev/ttyUSB0", 115200)
     if port==-1 then
       error("Unable to open port - error: "..msg)
     end
