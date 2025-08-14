@@ -1,3 +1,5 @@
+#!/usr/bin/lua5.1
+
 local serial = require("serial")
 
 if arg[1] == "help" then
@@ -51,11 +53,12 @@ local function port_RX()
 		if cc > 0 then -- bytes have been read from the port
 			data_in = data_in .. msg
 			if (string.sub(data_in,-(#ready_prompt), -1) == ready_prompt) then
+				-- up to first "\n" is the echoed command
+				-- better way to fix?
+				local _, i = string.find(data_in, "\n")
+				data_in = string.sub(data_in, i+1, -1)
 				break
 			end
-			-- if here then the buffer has been read but there
-			-- should be more output from the device
-			-- check the buffer for new chars
 		end
 		-- show progress for long wait
 		--io.write(". ")
