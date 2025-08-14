@@ -3,7 +3,7 @@
 local serial = require("serial")
 
 if arg[1] == "help" then
-	print('luaT "port-string"|"help" port-speed')
+	print('luaserialterm.lua "port-string"|"help" port-speed')
 	os.exit()
 end
 
@@ -70,8 +70,8 @@ port_open()
 -- give controller time to spin up
 serial.usleep(100000) -- min to allow atmega to spin up forth
 
-io.write("Welcome to LuaTerminal. <enter> to begin and '\\' to end\n")
---io.write(ready_prompt..data_in)
+io.write("\nWelcome to LuaTerminal. Use '\\' to exit session.\n")
+io.write(ready_prompt..data_in)
 repeat
 	data_out = io.read()
 	if data_out == '\\' then break
