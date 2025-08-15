@@ -48,9 +48,11 @@ local function port_RX()
 	-- read value back
 	data_in = ''
 	while true do
-		local cc, msg = serial.readbytes(port_handle, 4096)
+		local c, msg = serial.readbytes(port_handle, 4096)
 		serial.usleep(10000)
-		if cc > 0 then -- bytes have been read from the port
+		if c < 0 then
+			error("Unable to read: "..msg)
+		elseif c > 0 then -- bytes have been read from the port
 			data_in = data_in .. msg
 			if (string.sub(data_in,-(#ready_prompt), -1) == ready_prompt) then
 				-- up to first "\n" is the echoed command
