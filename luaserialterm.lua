@@ -76,8 +76,7 @@ port_open()
 -- give controller time to spin up
 serial.usleep(100000)
 
-io.write("\nWelcome to LuaTerminal. Use '\\' to exit session.\n")
-io.write(ready_prompt..data_in)
+io.write("\nWelcome to LuaTerminal. <enter> to begin and '\\' to exit session.\n")
 repeat
 	local data_out = io.read()
 	if data_out == '\\' then break
