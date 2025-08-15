@@ -34,7 +34,7 @@ Lua 5.1.x
 ## build
 Compiled on Debian 12 for Lua5.1 using:
 
-    gcc -shared  -I /usr/include/lua5.1/ -l:liblua5.1.so.0 -o serial.so -fPIC serial.c
+    gcc -shared -I /usr/include/lua5.1/ -l:liblua5.1.so.0 -o serial.so -fPIC serial.c
 
 -l:liblua5.1.so.0 will depend on what your shared library is actually named. The same goes for -I to point at the correct headers include path.
 
@@ -44,7 +44,7 @@ Require the library:
     local serial = require("serial")
 
 ### Open a connection to a device
-port_handle is the filedescriptor  
+port_handle is the file descriptor  
 msg is the error message if opening failed
 
     port_handle, msg = serial.open("/dev/ttyUSB0", 115200)
@@ -61,7 +61,7 @@ msg is the error message if writing failed
       error("Unable to write: "..msg)
     end
 
-### Read x number of bytes
+### Read up to X number of bytes
 c is actual number of bytes read  
 msg is error message if reading failed, or the string of bytes that were read
 
