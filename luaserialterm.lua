@@ -8,11 +8,14 @@ if arg[1] == "help" then
 end
 
 local serialport = arg[1] or "/dev/ttyUSB0"
+
 -- connectspeed = 115200 -- ESP 19200 1284P forth
 local connectspeed = arg[2] or 115200
-local port_handle
-local data_out = ''
-local data_in = ''
+
+local port_handle   -- filedescriptor for the port used
+local data_in = ''  -- local global to ease passing around the read data
+
+-- REPL trigger that says it is ready for input
 local ready_prompt = "\n> "
 
 
@@ -36,6 +39,7 @@ end
 
 
 local function port_TX(data)
+	-- send data to the opened port
 	local c, msg = serial.write(port_handle, data)
 	if c < 0 then
 		error("Unable to write: "..msg)
@@ -45,7 +49,7 @@ end
 
 
 local function port_RX()
-	-- read value back
+	-- read data from the opened port
 	data_in = ''
 	while true do
 		local c, msg = serial.readbytes(port_handle, 4096)
@@ -70,12 +74,12 @@ end
 
 port_open()
 -- give controller time to spin up
-serial.usleep(100000) -- min to allow atmega to spin up forth
+serial.usleep(100000)
 
 io.write("\nWelcome to LuaTerminal. Use '\\' to exit session.\n")
 io.write(ready_prompt..data_in)
 repeat
-	data_out = io.read()
+	local data_out = io.read()
 	if data_out == '\\' then break
 	else port_TX(data_out.."\n")
 	end
