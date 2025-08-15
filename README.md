@@ -29,36 +29,44 @@ Also the whole thing explained clearly:
 
 ## requirements
 
-* Lua 5.1.x
+Lua 5.1.x
 
 ## build
 Compiled on Debian 12 for Lua5.1 using:
 
-    gcc -I /usr/include/lua5.1/ -fPIC -shared -l:liblua5.1.so.0 serial.c -o serial.so
+    gcc -shared  -I /usr/include/lua5.1/ -l:liblua5.1.so.0 -o serial.so -fPIC serial.c
 
-## TO USE
+-l:liblua5.1.so.0 will depend on what your shared library is actually named. The same goes for -I to point at the correct headers include path.
 
-    Require the library:
+## usage
+Require the library:
+    
     local serial = require("serial")
 
-Open a connection to a device (port is the filedescriptor, msg is error if failed to open)
+### Open a connection to a device
+port_handle is the filedescriptor  
+msg is the error message if opening failed
 
-    port, msg = serial.open("/dev/ttyUSB0", 115200)
-    if port==-1 then
+    port_handle, msg = serial.open("/dev/ttyUSB0", 115200)
+    if port_handle==-1 then
       error("Unable to open port - error: "..msg)
     end
 
-Write a string (c is number of bytes written, msg is error if failed)
+### Write a string
+c is number of bytes written  
+msg is the error message if writing failed
 
-    c, msg = serial.write(port, "hello")
+    c, msg = serial.write(port_handle, "hello")
     if c < 0 then
       error("Unable to write: "..msg)
     end
 
-Read x number of bytes (c is actual number of bytes read, msg is error if failed)
+### Read x number of bytes
+c is actual number of bytes read  
+msg is error message if reading failed, or the string of bytes that were read
 
-    c, msg = serial.readbytes(port, x)
+    c, msg = serial.readbytes(port_handle, x)
 
-Close connection
+### Close connection
 
-    c, msg = serial.close(port);
+    c, msg = serial.close(port_handle);
