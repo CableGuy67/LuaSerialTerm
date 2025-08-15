@@ -69,4 +69,4 @@ msg is error message if reading failed, or the string of bytes that were read
 
 ### Close connection
 
-    c, msg = serial.close(port_handle);
+    c, msg = serial.close(port_handle)
