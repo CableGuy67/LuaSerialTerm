@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2014 Tod E. Kurt and subsequent contributors
+Copyright (c) 2014 Tod E. Kurt for LuaSerial code
+Copyright (c) 2015 Brian Nash for lua-readline code
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
