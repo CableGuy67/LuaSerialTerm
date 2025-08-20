@@ -34,18 +34,20 @@ Lua 5.1.x
 ## build
 Compiled on Debian 12 for Lua5.1 using:
 
-    gcc -shared -I /usr/include/lua5.1/ -l:liblua5.1.so.0 -o serial.so -fPIC serial.c
-
--l:liblua5.1.so.0 will depend on what your shared library is actually named. The same goes for -I to point at the correct headers include path.
+    gcc -shared -I /usr/include/lua5.1/ -l:liblua5.1.so -o lua_serial.so -fPIC lua_serial.c
 
 Also build the library for readline support using:
 
-    gcc -shared -I /usr/include/lua5.1/ -l:liblua5.1.so.0 -o readline.so -fPIC lua_readline.c
+    gcc -shared -I /usr/include/lua5.1/ -l:liblua5.1.so -o lua_readline.so -fPIC lua_readline.c
 
 ## usage
-Require the library:
+Require the serial library:
     
     local serial = require("serial")
+
+And to add readline history support:
+
+    local readline = require("readline")
 
 ### Open a connection to a device
 port_handle is the file descriptor  

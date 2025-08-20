@@ -1,6 +1,6 @@
 #!/usr/bin/lua5.1
 
-local serial = require("serial")
+local serial = require("lua_serial")
 
 if arg[1] == "help" then
 	print('luaserialterm.lua "port-string"|"help" port-speed')
