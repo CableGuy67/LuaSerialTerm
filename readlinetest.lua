@@ -1,7 +1,7 @@
 #!/usr/bin/lua5.1
 
 local os = require("os")
-local readline = require("readline")
+local readline = require("lua_readline")
 
 readline.read_history(nil) -- load default history
 

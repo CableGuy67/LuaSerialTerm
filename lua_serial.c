@@ -25,7 +25,8 @@
  * https://support.dce.felk.cvut.cz/pos/cv5/doc/serial.html#config
  *
  * Compiled on Debian 12 for Lua5.1 using:
- * gcc -shared -I /usr/include/lua5.1/ -l:liblua5.1.so -o lua_serial.so -fPIC serial.c
+ * gcc -shared -I /usr/include/lua5.1/ -l:liblua5.1.so -o lua_serial.so \
+ * -fPIC lua_serial.c
  *
  * There are some Lua 5.1 specific calls (int, register, etc) that need
  * to be adressed to build for later Lua versions that no longer have
@@ -53,7 +54,7 @@ int iusleep(lua_State *L);
 int luaopen_lua_serial(lua_State *L);
 
 // set up the libray methods
-const struct luaL_Reg lua_serial [] = {
+const struct luaL_Reg serial [] = {
 	{"open", iopen},
 	{"write", iwrite},
 	{"readbytes", iread_no_bytes},
@@ -238,7 +239,7 @@ int iusleep(lua_State *L) {
 
 
 int luaopen_lua_serial(lua_State *L) {
-	luaL_register(L, "lua_serial", lua_serial);
+	luaL_register(L, "lua_serial", serial);
 	return 1;
 }
 

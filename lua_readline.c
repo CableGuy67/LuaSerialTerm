@@ -106,8 +106,8 @@ static const luaL_Reg l_readline[] = {
     {NULL, NULL}
 };
 
-int luaopen_readline(lua_State *const L) {
+int luaopen_lua_readline(lua_State *const L) {
     using_history();
-    luaL_register(L, "l_readline", l_readline);
+    luaL_register(L, "l_lua_readline", l_readline);
     return 1;
 }
